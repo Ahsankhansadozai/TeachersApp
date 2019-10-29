@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-teachers-list',
-  templateUrl: './teachers-list.page.html',
-  styleUrls: ['./teachers-list.page.scss'],
+  selector: 'app-teacher',
+  templateUrl: './teacher.page.html',
+  styleUrls: ['./teacher.page.scss'],
 })
-export class TeachersListPage implements OnInit {
+export class TeacherPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private route: ActivatedRoute) {}
   teachers = [
     { id: '3198/FBAS/BSSE/F16', name: 'SAAD FAROOQ' },
     { id: '3199/FBAS/BSSE/F16', name: 'ABDULLAH KHAN' },
@@ -65,16 +65,16 @@ export class TeachersListPage implements OnInit {
     { id: '3377/FBAS/BSSE/F16', name: 'Shabab Ur Rehman' },
     { id: '3343/FBAS/BSSE/F16', name: 'Muhammad Hamza Khalil' }
   ];
+
+  singleTeacher;
   ngOnInit() {
-  }
+    this.route.paramMap.subscribe(paramMap => {
+      const val = paramMap.get('teacherid');
 
-  changeUrl(user) {
-    const id = user.id.substring(0, 4);
-    const url = `teachers-list/${id}`;
-
-    this.router.navigateByUrl(url);
-
-
+      this.singleTeacher = this.teachers.find(obj => {
+        return obj.id.includes(val);
+      });
+    });
   }
 
 }
